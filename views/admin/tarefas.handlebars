@@ -1,0 +1,21 @@
+<h2>Lista de Tarefas:</h2>
+<hr>
+
+<a href="/admin/tarefas/add"><button class="btn btn-success">Nova Tarefa</button></a>
+
+
+{{#each tarefas}}
+    <div class="card mt-4">
+        <div class="card-body">
+            <h4>{{nome}}</h4>
+            <h4>{{descricao}}</h4>
+            <h4>{{prazo}}</h4>
+            <h4>{{prioridade}}</h4>
+            <h4>{{concluida}}</h4>
+            <br>
+            <a href="/admin/tarefas/edit/{{_id}}"><button class="btn btn-success mt-4">Editar tarefa</button></a>
+        </div>
+    </div>
+{{else}}
+
+{{/each}}
