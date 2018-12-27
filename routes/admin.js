@@ -24,6 +24,7 @@ router.get("/tarefas", (req,res) => {
     
 })
 
+
 router.get("/tarefas/add", (req,res) => {
     res.render("admin/addtarefas")
 })
@@ -44,7 +45,8 @@ router.post("/tarefas/nova", (req, res) => {
             descricao: req.body.descricao,
             prazo: req.body.prazo,
             prioridade: req.body.prioridade,
-            concluida: req.body.concluida
+            concluida: req.body.concluida,
+            cliente: req.body.cliente
         }
 
     
@@ -62,14 +64,53 @@ router.post("/tarefas/nova", (req, res) => {
 })
 
 
-router.get("/tarefas/edit/:id", (req,res) =>{
+
+
+
+
+//rota edit
+
+router.get("/tarefas/edit/:id", (req,res) => {
     Tarefa.findOne({_id:req.params.id}).then((tarefa)=>{
         res.render("admin/edittarefas", {tarefa:tarefa})
     }).catch((erro)=>{
         req.flash("error_msg", "esta tarefa não existe")
-        res.redirect("admin/tarefas")
+        res.redirect("/admin/tarefas")
     })
     
+})
+
+
+router.post("/tarefa/edit", (req, res) => {
+    Tarefa.findOne({_id: req.body.id}).then((tarefa) => {
+        tarefa.nome = req.body.nome
+        tarefa.descricao = req.body.descricao
+        tarefa.prazo = req.body.prazo
+        tarefa.prioridade = req.body.prioridade
+        tarefa.concluida = req.body.concluida
+        tarefa.cliente = req.body.cliente
+        
+        tarefa.save().then(() => {
+            req.flash("success_msg", "Tarefa editada com sucesso!")
+            res.redirect("/admin/tarefas")
+        }).catch((err) => {
+            req.flash("error_msg", "houve um erro interno ao salvar a edição da tarefa ")
+            res.redirect("/admin/tarefas")
+        })
+    }).catch((err) => {
+        req.flash("error_msg", "houve um erro ao editar a tarefa")
+        res.redirect("/admin/tarefas")
+    })
+})
+
+router.post("/tarefas/deletar", (req,res) => {
+    Tarefa.remove({_id: req.body.id}).then(() => {
+        req.flash("success_msg", "Tarefa removida com sucesso!")
+        res.redirect("/admin/tarefas")
+    }).catch((erro) => {
+        req.flash("error_msg", "Houve um erro ao remover a tarfa")
+        res.redirect("/admin/tarefas")
+    })
 })
 
 

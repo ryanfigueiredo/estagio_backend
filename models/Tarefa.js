@@ -15,10 +15,14 @@ const Tarefa = new Schema({
         default: Date.now()
     },
     prioridade:{
-        type: Boolean,
+        type: String,
         required: true
     },
     concluida:{
+        type: String,
+        required: true
+    },
+    cliente: {
         type: String,
         required: true
     }

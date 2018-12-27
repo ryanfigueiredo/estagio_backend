@@ -8,6 +8,8 @@
     const mongoose = require("mongoose")
     const session = require("express-session")
     const flash = require("connect-flash")
+    require("./models/Tarefa")
+    const Tarefa = mongoose.model("tarefas")
 
 //configurações
     //sessao
@@ -47,9 +49,40 @@
         
 
 //rotas
+    
+
+    app.get("/", (req, res) => {
+        Tarefa.find().populate().sort({prazo: "asc"}).then((tarefas) => {
+            res.render("index", {tarefas:tarefas})
+        }).catch((err) => {
+            req.flash("error_msg", "houve um erro interno")
+            res.redirect("/404")
+        })
+        
+    })
+
+//ROTA DE BUSCA
+    app.get("/tarefa/:nome", (req, res) => {
+        Tarefa.findOne({nome: req.params.nome}).then((tarefa) => {
+            if(tarefa){
+                res.render("tarefa/index", {tarefa: tarefa})
+            }else{
+                req.flash("error_msg", "esta tarefa não existe")
+                res.redirect("/")
+            }
+        }).catch((err) =>{
+            req.flash("error_msg", "houve um erro interno")
+            res.redirect("/")
+        })
+    })
+
+    app.get("/404", (req, res) => {
+        res.send("erro 404!")
+    })
+
+
+
     app.use("/admin", admin)
-
-
 //outros
 const PORT = 8081
 app.listen(PORT, () => {

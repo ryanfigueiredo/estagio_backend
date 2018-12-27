@@ -7,15 +7,20 @@
 {{#each tarefas}}
     <div class="card mt-4">
         <div class="card-body">
-            <h4>{{nome}}</h4>
-            <h4>{{descricao}}</h4>
-            <h4>{{prazo}}</h4>
-            <h4>{{prioridade}}</h4>
-            <h4>{{concluida}}</h4>
+            <h2>{{nome}}</h2>
+            <h4>Descrição: {{descricao}}</h4>
+            <h4>Data de conclusão: {{prazo}}</h4>
+            <h4>Prioridade: {{prioridade}}</h4>
+            <h4>Status: {{concluida}}</h4>
+            <h4>Cliente: {{cliente}}</h4>
             <br>
             <a href="/admin/tarefas/edit/{{_id}}"><button class="btn btn-success mt-4">Editar tarefa</button></a>
+            <form action="/admin/tarefas/deletar" method="POST">
+            <input type="hidden" name="id" value="{{_id}}">
+            <button type="submit" class="btn btn-danger mt-2">Deletar tarefa</button>
+            </form>
         </div>
     </div>
 {{else}}
-
+<h4 class="mt-5">nenhuma categoria registrada!</h4>
 {{/each}}

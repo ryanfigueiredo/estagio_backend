@@ -1,0 +1,29 @@
+<div class="jumbotron">
+  <h1 class="display-5">Bem-vindo ao Sistema de Tarefas</h1>
+  <p class="lead">Sistema útil para organizar suas tarefas de maneira simples e eficaz.</p>
+  <hr class="my-4">
+  {{!-- <a class="btn btn-primary btn-lg" href="#" role="button">Crie uma conta</a> --}}
+
+  {{!-- FORMULARIO DE BUSCA--}}
+   <form class="form-inline my-2 my-lg-0" action="/tarefa/" method="GET">
+      <input class="form-control mr-sm-2" type="search" value="{{tarefa.nome}}" name="nome" placeholder="Digite o ID da tarefa" aria-label="Search" >
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Procurar</button>
+   </div>
+  
+
+<hr>
+<h2 class="mt-3">Tarefas recentes: </h2>
+
+
+{{#each tarefas}}
+<div class="card mt-4">
+    <div class="card-body">
+        <h3>{{nome}}</h3>
+        <p>{{descricao}}</p>
+        <h6>Status: {{concluida}}</h6>
+        <h6>Cliente: {{cliente}}</h6>
+    </div>
+</div>
+{{else}}
+    <h5>Nenhuma Postagem</h5>
+{{/each}}

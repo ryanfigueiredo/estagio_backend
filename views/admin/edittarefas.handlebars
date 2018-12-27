@@ -4,25 +4,26 @@
 {{else}}
 
 {{/each}}
-{{tarefa}}
+
 <h3>Editar Tarefa:</h3>
-<form action="/admin/tarefas/nova" method="POST">
+<form action="/admin/tarefa/edit" method="POST">
+<input type="hidden" name="id" value="{{tarefa._id}}">
     <label for="nome">Nome: </label>
     <input type="text" id="nome" name="nome" placeholder="nome da tarefa" class="form-control" value="{{tarefa.nome}}">
     <label for="descricao">Descricão</label>
     <input type="text" name="descricao" id="descricao" class="form-control" value="{{tarefa.descricao}}">
-    <label for="prazo">Prazo:</label>
+    <label for="cliente">Cliente: </label>
+    <input type="text" name="cliente" class="form-control" value="{{tarefa.cliente}}">
+    <label for="prazo">Data de conclusão: {{tarefa.prazo}}</label>
     <input type="date" name="prazo" id="prazo" class="form-control" value="{{tarefa.prazo}}">
-    <input type="text" value="{{tarefa.prazo}}">
     <br>
-    <label for="prioridade">Prioridade da tarefa:</label>
+    <label for="prioridade">Prioridade da tarefa: {{tarefa.prioridade}}</label>
     <br>
-    <input type="text" value="{{tarefa.prioridade}}">
-    <input type="radio" name="prioridade" id="alta" value="{{tarefa.prioridade}}" > Alta
-    <input type="radio" name="prioridade" id="media" value="{{tarefa.prioridade}}" > Média
-    <input type="radio" name="prioridade" id="baixa" value="{{tarefa.prioridade}}"> Baixa
+    <input type="radio" name="prioridade" id="alta" value="Alta" > Alta
+    <input type="radio" name="prioridade" id="media" value="Media" > Média
+    <input type="radio" name="prioridade" id="baixa" value="Baixa"> Baixa
     <br><br>
-    <label for="concluida">Status de conclusão:</label>
+    <label for="concluida">Status de conclusão: {{tarefa.concluida}}</label>
     <br>
     <input type="radio" name="concluida" id="concluida" value="Concluida"> Concluida
     <input type="radio" name="concluida" id="emProcesso" value="Em Processo"> Em processo
@@ -31,3 +32,7 @@
     <button type="submit" class="btn btn-success">Editar Tarefa</button>
 
 </form>
+
+<script>
+    $('input[name=prioridade]:checked').val();
+</script>
