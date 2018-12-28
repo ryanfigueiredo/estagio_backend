@@ -84,7 +84,7 @@
 
 app.get("/tarefa", (req, res) => {
     Tarefa.find({cliente: req.query.cliente}).populate().then((tarefas) => {
-        if(tarefas){
+        if(tarefas.length > 0){
             res.render("tarefa/index", {tarefas: tarefas})
         }else{
             req.flash("error_msg", "esta tarefa não existe")
