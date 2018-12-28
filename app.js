@@ -76,9 +76,9 @@
     //     })
     // })
 
-    // app.get("/404", (req, res) => {
-    //     res.send("erro 404!")
-    // })
+    app.get("/404", (req, res) => {
+        res.send("erro 404!")
+    })
 
 //Rota de busca alternativa para buscar vários
 
@@ -95,14 +95,6 @@ app.get("/tarefa", (req, res) => {
         res.redirect("/")
     })
 })
-
-var hbs = require('hbs');
-hbs.registerPartials(__dirname + '/views/partials');
-hbs.registerHelper('checked', function (value, test) {
-  if (value == undefined) return '';
-  return value == test ? 'checked' : '';
-});
-app.set('view engine', 'hbs');
 
 
     app.use("/admin", admin)
