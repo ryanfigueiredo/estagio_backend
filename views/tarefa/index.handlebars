@@ -1,5 +1,21 @@
 <h1>buscartarefas</h1>
+<hr>
 
 
 <h2>{{tarefa.nome}}</h2>
 <h3>{{tarefa.cliente}}</h3>
+
+<hr>
+
+{{#each tarefas}}
+<div class="card mt-4">
+    <div class="card-body">
+        <h3>{{nome}}</h3>
+        <p>{{descricao}}</p>
+        <h6>Status: {{concluida}}</h6>
+        <h6>Cliente: {{cliente}}</h6>
+    </div>
+</div>
+{{else}}
+    <h5>Nenhuma Postagem</h5>
+{{/each}}

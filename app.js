@@ -61,25 +61,48 @@
         
     })
 
-//ROTA DE BUSCA
-    app.get("/tarefa/:nome", (req, res) => {
-        Tarefa.findOne({nome: req.params.nome}).then((tarefa) => {
-            if(tarefa){
-                res.render("tarefa/index", {tarefa: tarefa})
-            }else{
-                req.flash("error_msg", "esta tarefa não existe")
-                res.redirect("/")
-            }
-        }).catch((err) =>{
-            req.flash("error_msg", "houve um erro interno")
+//ROTA DE BUSCA para buscar apenas um. 
+    // app.get("/tarefa", (req, res) => {
+    //     Tarefa.findOne({cliente: req.query.cliente}).then((tarefa) => {
+    //         if(tarefa){
+    //             res.render("tarefa/index", {tarefa: tarefa})
+    //         }else{
+    //             req.flash("error_msg", "esta tarefa não existe")
+    //             res.redirect("/")
+    //         }
+    //     }).catch((err) =>{
+    //         req.flash("error_msg", "houve um erro interno")
+    //         res.redirect("/")
+    //     })
+    // })
+
+    // app.get("/404", (req, res) => {
+    //     res.send("erro 404!")
+    // })
+
+//Rota de busca alternativa para buscar vários
+
+app.get("/tarefa", (req, res) => {
+    Tarefa.find({cliente: req.query.cliente}).populate().then((tarefas) => {
+        if(tarefas){
+            res.render("tarefa/index", {tarefas: tarefas})
+        }else{
+            req.flash("error_msg", "esta tarefa não existe")
             res.redirect("/")
-        })
+        }
+    }).catch((err) =>{
+        req.flash("error_msg", "houve um erro interno" +err)
+        res.redirect("/")
     })
+})
 
-    app.get("/404", (req, res) => {
-        res.send("erro 404!")
-    })
-
+var hbs = require('hbs');
+hbs.registerPartials(__dirname + '/views/partials');
+hbs.registerHelper('checked', function (value, test) {
+  if (value == undefined) return '';
+  return value == test ? 'checked' : '';
+});
+app.set('view engine', 'hbs');
 
 
     app.use("/admin", admin)
