@@ -5,16 +5,12 @@ const mongoose = require("mongoose")
 require("../models/Tarefa")
 const Tarefa = mongoose.model("tarefas")
 
-
+// ROTA /ADMIN 
 router.get("/", (req,res) => {
     res.render("admin/index")
 })
 
-
-router.get("/posts", (req,res) => {
-    res.send("página de posts")
-})
-
+// ROTA /ADMIN/TAREFAS
 router.get("/tarefas", (req,res) => {
     Tarefa.find().then((tarefas)=>{
         res.render("admin/tarefas", {tarefas: tarefas})
@@ -25,6 +21,7 @@ router.get("/tarefas", (req,res) => {
 })
 
 
+// ROTA PARA ADICIONAR TAREFA
 router.get("/tarefas/add", (req,res) => {
     res.render("admin/addtarefas")
 })
@@ -68,7 +65,7 @@ router.post("/tarefas/nova", (req, res) => {
 
 
 
-//rota edit
+//ROTA PARA EDITAR TAREFA
 
 router.get("/tarefas/edit/:id", (req,res) => {
     Tarefa.findOne({_id:req.params.id}).then((tarefa)=>{
@@ -103,6 +100,9 @@ router.post("/tarefa/edit", (req, res) => {
     })
 })
 
+
+
+//ROTA PARA DELETAR TAREFA
 router.post("/tarefas/deletar", (req,res) => {
     Tarefa.remove({_id: req.body.id}).then(() => {
         req.flash("success_msg", "Tarefa removida com sucesso!")

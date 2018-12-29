@@ -25,14 +25,40 @@
     <br><br>
     <label for="concluida">Status de conclusão: {{tarefa.concluida}}</label>
     <br>
-    <input type="radio" name="concluida" id="concluida" value="Concluida"> Concluida
-    <input type="radio" name="concluida" id="emProcesso" value="Em Processo"> Em processo
-    <input type="radio" name="concluida" id="naoConcluida" value="Não Concluida"> Não Concluida
+    <input type="radio" name="concluida" id="concluida" value="Concluida" > Concluida
+    <input type="radio" name="concluida" id="emProcesso" value="Em Processo" > Em processo
+    <input type="radio" name="concluida" id="naoConcluida" value="Não Concluida"  > Não Concluida
     <br><br>
     <button type="submit" class="btn btn-success">Editar Tarefa</button>
 
+
+
+
 </form>
 
+
+{{!-- Script para buscar opção marcada no type:radio direto do banco de dados --}}
 <script>
-    $('input[name=prioridade]:checked').val();
+    window.onload = function() {
+        var radios = document.getElementsByName("prioridade");
+        var radPrio = document.getElementsByName("concluida")
+        
+        for (var i = 0; i < radios.length; i++) {
+        
+            if (radios[i].value === "{{tarefa.prioridade}}") {
+                radios[i].checked = true;
+            }
+        }
+
+        for (var i = 0; i < radPrio.length; i++) {
+        
+            if (radPrio[i].value === "{{tarefa.concluida}}") {
+                radPrio[i].checked = true;
+            }
+        }
+
+    };
+
 </script>
+
+

@@ -1,6 +1,9 @@
 const mongoose = require("mongoose")
 const Schema = mongoose.Schema
 
+
+
+// CRIAÇÃO DE OBJETO TAREFA COM SEUS TRIBUTOS. 
 const Tarefa = new Schema({
     nome:{
         type: String,
