@@ -10,6 +10,10 @@
     const flash = require("connect-flash")
     require("./models/Tarefa")
     const Tarefa = mongoose.model("tarefas")
+    const usuarios = require("./routes/usuario")
+    const passport = require("passport")
+    require("./config/auth")(passport)
+    const {eAdmin} = require("./helpers/eAdmin")
 
 //configurações
     //sessao
@@ -18,12 +22,20 @@
         resave:true,
         saveUninitialized: true
     }))
+
+
+    app.use(passport.initialize())
+    app.use(passport.session())
+
+
     app.use(flash())
 
     //middleware autenticacao mensagens
     app.use((req,res,next)=>{
         res.locals.success_msg = req.flash("success_msg")
         res.locals.error_msg = req.flash("error_msg")
+        res.locals.error = req.flash("error")
+        res.locals.user = req.user || null;
         next()
     })
 
@@ -51,7 +63,7 @@
 //rotas
     
 
-    app.get("/", (req, res) => {
+    app.get("/", eAdmin, (req, res) => {
         Tarefa.find().populate().sort({prazo: "asc"}).then((tarefas) => {
             res.render("index", {tarefas:tarefas})
         }).catch((err) => {
@@ -98,6 +110,7 @@ app.get("/tarefa", (req, res) => {
 
 
     app.use("/admin", admin)
+    app.use("/usuarios", usuarios)
 //outros
 const PORT = 8081
 app.listen(PORT, () => {

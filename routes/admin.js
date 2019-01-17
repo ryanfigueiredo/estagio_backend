@@ -4,14 +4,18 @@ const router = express.Router()
 const mongoose = require("mongoose")
 require("../models/Tarefa")
 const Tarefa = mongoose.model("tarefas")
+const {eAdmin} = require("../helpers/eAdmin")
+
+
+
 
 // ROTA /ADMIN 
-router.get("/", (req,res) => {
+router.get("/",  eAdmin, (req,res) => {
     res.render("admin/index")
 })
 
 // ROTA /ADMIN/TAREFAS
-router.get("/tarefas", (req,res) => {
+router.get("/tarefas", eAdmin, (req,res) => {
     Tarefa.find().then((tarefas)=>{
         res.render("admin/tarefas", {tarefas: tarefas})
     }).catch((err) =>{
@@ -22,11 +26,11 @@ router.get("/tarefas", (req,res) => {
 
 
 // ROTA PARA ADICIONAR TAREFA
-router.get("/tarefas/add", (req,res) => {
+router.get("/tarefas/add", eAdmin, (req,res) => {
     res.render("admin/addtarefas")
 })
 
-router.post("/tarefas/nova", (req, res) => {
+router.post("/tarefas/nova", eAdmin, (req, res) => {
 
     var erros = []
     if(!req.body.nome || typeof req.body.nome == undefined || req.body.nome == null ){
@@ -67,7 +71,7 @@ router.post("/tarefas/nova", (req, res) => {
 
 //ROTA PARA EDITAR TAREFA
 
-router.get("/tarefas/edit/:id", (req,res) => {
+router.get("/tarefas/edit/:id", eAdmin, (req,res) => {
     Tarefa.findOne({_id:req.params.id}).then((tarefa)=>{
         res.render("admin/edittarefas", {tarefa:tarefa})
     }).catch((erro)=>{
@@ -78,7 +82,7 @@ router.get("/tarefas/edit/:id", (req,res) => {
 })
 
 
-router.post("/tarefa/edit", (req, res) => {
+router.post("/tarefa/edit", eAdmin, (req, res) => {
     Tarefa.findOne({_id: req.body.id}).then((tarefa) => {
         tarefa.nome = req.body.nome
         tarefa.descricao = req.body.descricao
@@ -103,7 +107,7 @@ router.post("/tarefa/edit", (req, res) => {
 
 
 //ROTA PARA DELETAR TAREFA
-router.post("/tarefas/deletar", (req,res) => {
+router.post("/tarefas/deletar", eAdmin, (req,res) => {
     Tarefa.remove({_id: req.body.id}).then(() => {
         req.flash("success_msg", "Tarefa removida com sucesso!")
         res.redirect("/admin/tarefas")

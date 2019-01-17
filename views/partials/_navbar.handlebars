@@ -23,18 +23,27 @@
           <a class="dropdown-item" href="#">Something else here</a>
         </div>
       </li> --}}
+      {{#if user}}
+        <a href="/usuarios/logout"><button class="btn btn-outline-success my-2 my-sm-0"  type="submit">Sair</button></a> 
+
+      {{else}}
+
+
+      
       <li class="nav-item">
-        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Login</a>
+        <a class="nav-link" href="/usuarios/login" tabindex="-1" aria-disabled="true">Login</a>
       </li>
+      {{!-- 
       <li class="nav-item">
         <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Registro</a>
-      </li>
+      </li> --}}
     </ul>
-     <button class="btn btn-primary" type="submit">Crie uma Conta</button>
+     <a href="/usuarios/registro"><button class="btn btn-primary" type="submit">Crie uma Conta</button></a> 
     {{!-- <form class="form-inline my-2 my-lg-0">
       <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Crie uma Conta</button>
     </form> --}}
+    {{/if}}
   </div>
 </nav>
 
