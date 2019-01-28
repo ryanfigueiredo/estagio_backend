@@ -16,6 +16,7 @@
     const {eAdmin} = require("./helpers/eAdmin")
 
 //configurações
+
     //sessao
     app.use(session({
         secret: 'teste',
@@ -60,58 +61,46 @@
 
         
 
-//rotas
-    
 
+    //rota principal após logar - apresenta apenas tarefas do usuario
     app.get("/", eAdmin, (req, res) => {
-        Tarefa.find().populate().sort({prazo: "asc"}).then((tarefas) => {
+        Tarefa.find({UsuarioID: req.user._id}).populate('Usuario').then((tarefas) => {
             res.render("index", {tarefas:tarefas})
         }).catch((err) => {
             req.flash("error_msg", "houve um erro interno")
             res.redirect("/404")
-        })
-        
+        })        
     })
-
-//ROTA DE BUSCA para buscar apenas um. 
-    // app.get("/tarefa", (req, res) => {
-    //     Tarefa.findOne({cliente: req.query.cliente}).then((tarefa) => {
-    //         if(tarefa){
-    //             res.render("tarefa/index", {tarefa: tarefa})
-    //         }else{
-    //             req.flash("error_msg", "esta tarefa não existe")
-    //             res.redirect("/")
-    //         }
-    //     }).catch((err) =>{
-    //         req.flash("error_msg", "houve um erro interno")
-    //         res.redirect("/")
-    //     })
-    // })
 
     app.get("/404", (req, res) => {
         res.send("erro 404!")
     })
+     
 
-//Rota de busca alternativa para buscar vários
+    // [TERMINAR] - BUSCA POR VARIOS CAMPOS DE UMA SO VEZ 
+    app.get("/tarefa", (req, res) => {
+        Tarefa.find().or([{ nome: req.params.nome }, { cliente: req.params.cliente  }]).then((tarefas) => {
+            if(tarefas.length > 0){
+                res.render("tarefa/index", {tarefas: tarefas})
+            }else{
+                req.flash("error_msg", "Este cliente não existe")
+                res.redirect("/") 
+                
 
-app.get("/tarefa", (req, res) => {
-    Tarefa.find({cliente: req.query.cliente}).populate().then((tarefas) => {
-        if(tarefas.length > 0){
-            res.render("tarefa/index", {tarefas: tarefas})
-        }else{
-            req.flash("error_msg", "esta tarefa não existe")
+            }
+        }).catch((err) =>{
+            req.flash("error_msg", "Houve um erro interno: " +err)
             res.redirect("/")
-        }
-    }).catch((err) =>{
-        req.flash("error_msg", "houve um erro interno" +err)
-        res.redirect("/")
+        })
     })
-})
+
 
 
     app.use("/admin", admin)
     app.use("/usuarios", usuarios)
-//outros
+
+
+//PORTA - CONEXAO SERVIDOR
 const PORT = 8081
 app.listen(PORT, () => {
     console.log("servidor iniciado...")

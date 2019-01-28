@@ -1,8 +1,6 @@
 const mongoose = require("mongoose")
 const Schema = mongoose.Schema
 
-
-
 // CRIAÇÃO DE OBJETO TAREFA COM SEUS TRIBUTOS. 
 const Tarefa = new Schema({
     nome:{
@@ -10,12 +8,11 @@ const Tarefa = new Schema({
         required: true
     },
     descricao: {
-        type: String,
-        default: 'Descrição não informada'
+        type: String
+        
     },
     prazo: {
         type: Date,
-        default: Date.now()
     },
     prioridade:{
         type: String,
@@ -28,7 +25,19 @@ const Tarefa = new Schema({
     cliente: {
         type: String,
         required: true
+    },
+
+    UsuarioID: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'usuarios',
+        required: true
+    },
+    
+    dataDeCriacao: {
+        type: Date,
+        default: Date.now
     }
+
 
 })
 

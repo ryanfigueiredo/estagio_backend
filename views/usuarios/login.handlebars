@@ -1,14 +1,23 @@
 
 
-<h4>Login</h4>
-<div class="card">
-    <div class="card-body">
+
+<div class="row mt-5">
+  <div class="col-md-9 m-auto">
+    <div class=" card card-body">
+        <h1 class="text-center mb-3"> Login</h1>
         <form action="/usuarios/login" method="post">
         <label for="email">E-mail: </label>
         <input type="email" name="email" class="form-control" required>
         <label for="senha">Senha: </label>
         <input type="password" name="senha" class="form-control" required>
-        <button type="submit" class="btn btn-success mt-4">Entrar</button>
+        <button type="submit" class="btn btn-primary btn-block mt-4">Entrar</button>
+        
         </form>
+
+        <p class="lead mt-4">
+              Não tem uma conta? <a href="/usuarios/registro">Registrar</a>
+        </p>
+         
     </div>
+  </div>
 </div>

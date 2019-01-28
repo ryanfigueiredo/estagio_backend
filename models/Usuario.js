@@ -5,6 +5,10 @@ const Schema = mongoose.Schema
 const Usuario = new Schema({
 
     nome: {
+        type:String
+    },
+
+    sobreNome: {
         type:String,
         required: true
     },
@@ -22,10 +26,15 @@ const Usuario = new Schema({
     eAdmin:{
         type: Number,
         default: 0
-    }
+    },
 
+    dataDeCriacao: {
+        type: Date,
+        default: Date.now
+    }
 
 })
 
 
-mongoose.model("usuarios", Usuario)
+const User = mongoose.model('usuarios', Usuario)
+module.exports = User

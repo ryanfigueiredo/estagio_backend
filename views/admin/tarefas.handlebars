@@ -1,10 +1,18 @@
-<h2>Lista de Tarefas:</h2>
+<h2>Todas as Tarefas:</h2>
 <hr>
 
 <a href="/admin/tarefas/add"><button class="btn btn-success">Nova Tarefa</button></a>
 
+Usuario logado: {{user.id}}
+<script>
+var ID = "{{user.id}}"
 
+
+</script>
 {{#each tarefas}}
+ <script>
+var ID1 = "{{UsuarioID}}"
+</script>
     <div class="card mt-4">
         <div class="card-body">
             <h2>{{nome}}</h2>
@@ -13,16 +21,21 @@
             <h4>Prioridade: {{prioridade}}</h4>
             <h4>Status: {{concluida}}</h4>
             <h4>Cliente: {{cliente}}</h4>
+            <h2>{{UsuarioID}}</h2>
             <br>
-            <a href="/admin/tarefas/edit/{{_id}}"><button class="btn btn-success mt-4">Editar tarefa</button></a>
+            
+            <a href="/admin/tarefas/edit/{{_id}}"><button class="btn btn-success mt-4" id="edit">Editar tarefa</button></a>
+            
             <form action="/admin/tarefas/deletar" method="POST">
-            <input type="hidden" name="id" value="{{_id}}">
-            <button type="submit" class="btn btn-danger mt-2">Deletar tarefa</button>
+            <input type="hidden" name="id" value="{{_id}}"> 
+            <button type="submit" class="btn btn-danger mt-2" id="del">Deletar tarefa</button>
             </form>
         </div>
     </div>
 {{else}}
 <h4 class="mt-5">nenhuma categoria registrada!</h4>
 {{/each}}
+
+
 
 
