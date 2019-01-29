@@ -1,4 +1,4 @@
-# estagio_backend
+# Sistema de Tarefas
 Projeto de tarefas com NodeJS + MongoDB
 Autoria: César Ryan Damasceno Figueiredo
 
