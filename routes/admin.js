@@ -10,15 +10,21 @@ const Usuario = mongoose.model("usuarios")
 const {eAdmin} = require("../helpers/eAdmin")
 
 
+
 // ROTA TODAS AS TAREFAS
 router.get("/tarefas", eAdmin, (req,res) => {
-    Tarefa.find().then((tarefas, tarefa)=>{
+    Tarefa.find().then((tarefas, tarefa, )=>{
+		tarefas.forEach((tarefa)=>{ 
+            if(req.user.id == tarefa.UsuarioID){
+                tarefa.buttonDisabled = ""
+            } else{
+                tarefa.buttonDisabled = 'disabled'
+            } 
+        });
         res.render("admin/tarefas", {tarefas: tarefas})          
     }).catch((err) =>{
         req.flash("error_msg", "Houve um erro ao listar as tarefas")
     })
-
-
 })
  
 router.get("/conta",  eAdmin, (req,res) => {         
