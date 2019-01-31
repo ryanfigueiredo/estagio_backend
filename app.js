@@ -79,14 +79,14 @@
 
     // [TERMINAR] - BUSCA POR VARIOS CAMPOS DE UMA SO VEZ 
     app.get("/tarefa", (req, res) => {
-        Tarefa.find().or([{ nome: req.params.nome }, { cliente: req.params.cliente  }]).then((tarefas) => {
+         Tarefa.find().or([{ "nome": req.query.todosOsDados },
+          {"cliente": req.query.todosOsDados},
+          {"descricao": req.query.todosOsDados}]).then((tarefas) => {
             if(tarefas.length > 0){
                 res.render("tarefa/index", {tarefas: tarefas})
             }else{
-                req.flash("error_msg", "Este cliente não existe")
+                req.flash("error_msg", "Não há dados para sua pesquisa")
                 res.redirect("/") 
-                
-
             }
         }).catch((err) =>{
             req.flash("error_msg", "Houve um erro interno: " +err)
