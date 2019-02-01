@@ -1,0 +1,36 @@
+{
+  "name": "estagio_backend",
+  "version": "1.0.0",
+  "description": "Projeto de tarefas com NodeJS + MongoDB\r Autoria: César Ryan Damasceno Figueiredo",
+  "main": "app.js",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.18.3",
+    "connect-flash": "^0.1.1",
+    "express": "^4.16.4",
+    "express-handlebars": "^3.0.0",
+    "express-session": "^1.15.6",
+    "ejs": "^2.6.1",
+    "express-ejs-layouts": "^2.5.0",
+    "mongoose": "^5.4.6",
+    "passport-local": "^1.0.0",
+    "passport": "^0.4.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ryanfigueiredo/estagio_backend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ryanfigueiredo/estagio_backend/issues"
+  },
+  "homepage": "https://github.com/ryanfigueiredo/estagio_backend#readme"
+}

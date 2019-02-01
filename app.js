@@ -14,6 +14,7 @@
     const passport = require("passport")
     require("./config/auth")(passport)
     const {eAdmin} = require("./helpers/eAdmin")
+    const db = require("./config/db")
 
 //configurações
 
@@ -50,7 +51,7 @@
 
     //mongoose
         mongoose.Promise = global.Promise
-        mongoose.connect("mongodb://localhost/estagio").then(() => {
+        mongoose.connect(db.mongoURI).then(() => {
             console.log("conectado ao mongo...")
         }).catch((erro) => {
             console.log("erro ao se conectar: "+erro)
@@ -77,7 +78,6 @@
     })
      
 
-    // [TERMINAR] - BUSCA POR VARIOS CAMPOS DE UMA SO VEZ 
     app.get("/tarefa", (req, res) => {
          Tarefa.find().or([{ "nome": req.query.todosOsDados },
           {"cliente": req.query.todosOsDados},
@@ -101,7 +101,7 @@
 
 
 //PORTA - CONEXAO SERVIDOR
-const PORT = 8081
+const PORT = process.env.PORT ||8081
 app.listen(PORT, () => {
     console.log("servidor iniciado...")
 })
