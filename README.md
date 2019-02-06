@@ -8,6 +8,8 @@ IDE: Visual Studio Code.
 Sistema Operacional desenvolvido: Windows 7. 
 Variavél de ambiente: Todas no arquivo PATH
 
+Projeto Publicado funcional: https://cryptic-hamlet-78931.herokuapp.com/
+
 Pagina inicial: http://localhost:8081/admin
 pagina de cadastro: http://localhost:8081/admin/tarefas/add
 pagina de lista de tarefas : http://localhost:8081/admin/tarefas
