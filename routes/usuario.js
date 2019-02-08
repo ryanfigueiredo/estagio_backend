@@ -7,6 +7,8 @@ const bcrypt = require("bcryptjs")
 passport = require("passport")
 const {eAdmin} = require("../helpers/eAdmin")
 const path = require("path")
+const Tarefa = mongoose.model("tarefas")
+
 
 // apresentar imagens de public
 router.use(express.static("./public"))
@@ -50,7 +52,7 @@ function checkFileType(file, cb) {
 
 // rota para adicionar foto ao usuario
 router.post("/file", (req, res) => {
-    Usuario.findOne({_id: req.body.id}).then((usuario) =>{
+    Usuario.findOne({_id: req.user.id}).then((usuario) =>{
         upload(req, res, (err) =>{
             if(err == "x"){
                 req.flash("error_msg", "Tipo de arquivo não suportado")
@@ -78,7 +80,7 @@ router.post("/file", (req, res) => {
                         })
 
                     }
-                    Usuario.updateOne({
+                    usuario.updateOne({
                         avatarUsuario: req.file.filename
                     }).then(() =>{
                         req.flash("success_msg", "Foto atualizada com sucesso")
@@ -164,6 +166,16 @@ router.post("/registro", (req,res) =>{
     }
 })
 
+// rota após logar: 
+router.get("/index", eAdmin, (req, res) => {
+    Tarefa.find({UsuarioID: req.user._id}).populate('Usuario').then((tarefas) => {
+        res.render("usuarios/index", {tarefas:tarefas})
+    }).catch((err) => {
+        req.flash("error_msg", "houve um erro interno")
+        res.redirect("/404")
+    })        
+})
+
 
 router.get("/login", (req,res) =>{
     res.render("usuarios/login")
@@ -172,7 +184,7 @@ router.get("/login", (req,res) =>{
 
 router.post("/login", (req, res, next) =>{
     passport.authenticate("local", {
-        successRedirect: "/",
+        successRedirect: "/usuarios/index",
         failureRedirect: "/usuarios/login",
         failureFlash: true
     })(req, res, next)
@@ -182,7 +194,7 @@ router.post("/login", (req, res, next) =>{
 router.get("/logout", (req, res) =>{
     req.logOut()
     req.flash("success_msg", "Deslogado com sucesso")
-    res.redirect("/usuarios/login")
+    res.redirect("/")
 })
 
 
