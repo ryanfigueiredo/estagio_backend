@@ -47,7 +47,20 @@
             <p>{{id}}</p>
           <p>{{email}}</p>
           <p>SENHA: {{senha}}</p>
+
+         
+          <img src="uploads/{{avatarUsuario}}" alt="">
+
+
+          <form action="/usuarios/file" method="post" enctype="multipart/form-data">
+            <input type="file" name="avatar">
+            <input type="submit" value="enviar">
+            <input type="hidden" name="id" value="{{usuario.id}}">
+          </form>
           
+          
+
+
           <canvas class="my-4 w-100 chartjs-render-monitor" id="myChart" width="991" height="418" style="display: block; width: 991px; height: 418px;"></canvas>
 
-          
+          <img src="uploads/{{avatarUsuario}}" style="width: 60px; height: 60px;">

@@ -6,6 +6,93 @@ const Usuario = mongoose.model("usuarios")
 const bcrypt = require("bcryptjs")
 passport = require("passport")
 const {eAdmin} = require("../helpers/eAdmin")
+const path = require("path")
+
+// apresentar imagens de public
+router.use(express.static("./public"))
+
+// para manipulação de uploads
+const multer = require("multer")
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, 'public/uploads')
+    },
+    filename: function (req, file, cb) {
+        
+        const ext = file.originalname.substr(file.originalname.lastIndexOf(".") + 1)
+      cb(null, req.user.id + "-" + file.fieldname + '-' + Date.now() + "." + ext)
+    }
+  })
+  
+  const upload = multer({ 
+      storage: storage,
+      limits: {fileSize: 1000000},
+      fileFilter: function(req, file, cb) {
+          checkFileType(file, cb)
+      }
+    }).single("avatar")
+
+    // checar tipo de arquivo
+function checkFileType(file, cb) {
+    const fileTypes = /jpeg|jpg|png/ 
+    
+    const extName = fileTypes.test(path.extname(file.originalname).toLowerCase())
+    
+    const mimetype = fileTypes.test(file.mimetype)
+
+    if(mimetype && extName){
+        return cb(null, true)
+    }else{
+        cb("x")
+    }
+}
+
+// rota para adicionar foto ao usuario
+router.post("/file", (req, res) => {
+    Usuario.findOne({_id: req.body.id}).then((usuario) =>{
+        upload(req, res, (err) =>{
+            if(err == "x"){
+                req.flash("error_msg", "Tipo de arquivo não suportado")
+                res.redirect("/usuarios/conta")
+            }
+
+            else if(err){
+                req.flash("error_msg", "Tamanho de arquivo muito grande")
+                res.redirect("/usuarios/conta")
+                
+            }else{
+                if(req.file == undefined){
+                    req.flash("error_msg", "nenhum arquivo selecionado")
+                    res.redirect("/usuarios/conta")
+                    console.log(err)
+                }else{
+                    if(req.user.avatarUsuario){
+                        const fs = require("file-system");
+                        fs.unlink(`public/uploads/${req.user.avatarUsuario}`, (err) =>{
+                            if(err){
+                                console.log(err)
+                            }else{
+                                console.log("arquivo deletado")
+                            }
+                        })
+
+                    }
+                    Usuario.updateOne({
+                        avatarUsuario: req.file.filename
+                    }).then(() =>{
+                        req.flash("success_msg", "Foto atualizada com sucesso")
+                        res.redirect("/usuarios/conta")
+                    }).catch((err) =>{
+                        req.flash("error_msg", "houve um erro ao tentar atualizar sua foto!")
+                        res.redirect("/usuarios/conta")
+                        console.log(err)
+                    })
+                }
+            }
+        })
+    })
+})
 
 
 //rota para registrar usuario (ADD)
@@ -106,6 +193,7 @@ router.get("/conta",  eAdmin, (req,res) => {
         sobreNome: req.user.sobreNome, 
         email: req.user.email,
         senha: req.user.senha,
+        avatarUsuario: req.user.avatarUsuario,
         id: req.user.id})
 })
 

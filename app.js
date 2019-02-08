@@ -4,6 +4,7 @@
     const bodyParser = require("body-parser")
     const app = express()
     const admin = require("./routes/admin")
+    const testes = require("./routes/testes")
     const path = require("path")
     const mongoose = require("mongoose")
     const session = require("express-session")
@@ -15,6 +16,7 @@
     require("./config/auth")(passport)
     const {eAdmin} = require("./helpers/eAdmin")
     const db = require("./config/db")
+
 
 //configurações
 
@@ -60,13 +62,11 @@
     //public
         app.use(express.static(path.join(__dirname, "public")))
 
-        
-
 
     //rota principal após logar - apresenta apenas tarefas do usuario
     app.get("/", eAdmin, (req, res) => {
         Tarefa.find({UsuarioID: req.user._id}).populate('Usuario').then((tarefas) => {
-            res.render("index", {tarefas:tarefas})
+            res.render("usuarios/index", {tarefas:tarefas})
         }).catch((err) => {
             req.flash("error_msg", "houve um erro interno")
             res.redirect("/404")
@@ -98,6 +98,8 @@
 
     app.use("/admin", admin)
     app.use("/usuarios", usuarios)
+    app.use("/testes", testes)
+    
 
 
 //PORTA - CONEXAO SERVIDOR

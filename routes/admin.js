@@ -5,10 +5,13 @@ const mongoose = require("mongoose")
 require("../models/Tarefa")
 const Tarefa = mongoose.model("tarefas")
 
+// codigo adicional para imagem
+router.use(express.static("./public"))
+
+
 require("../models/Usuario")
 const Usuario = mongoose.model("usuarios")
 const {eAdmin} = require("../helpers/eAdmin")
-
 
 
 // ROTA TODAS AS TAREFAS

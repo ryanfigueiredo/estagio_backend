@@ -31,6 +31,10 @@ const Usuario = new Schema({
     dataDeCriacao: {
         type: Date,
         default: Date.now
+    },
+
+    avatarUsuario: {
+        type: String
     }
 
 })
