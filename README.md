@@ -9,6 +9,8 @@ Sistema Operacional desenvolvido: Windows 7.
 Variavél de ambiente: Todas no arquivo PATH
 
 Projeto Publicado funcional: https://cryptic-hamlet-78931.herokuapp.com/
+Usuário:admin@admin.com
+Senha: admin
 
 Pagina inicial: http://localhost:8081/admin
 pagina de cadastro: http://localhost:8081/admin/tarefas/add
