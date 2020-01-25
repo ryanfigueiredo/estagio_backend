@@ -64,3 +64,4 @@ typings/
 testando.html
 views/testes
 testes.js
+config/db.js
